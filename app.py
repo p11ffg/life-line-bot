@@ -51,9 +51,13 @@ def handle_message(event):
         TextSendMessage(text=event.message.text))
 
 
-times = [1]
-for time in times:
-    line_bot_api.push_message(USER_ID, TextSendMessage(text="Hello World!"))
+@handler.default()
+def push_message():
+    times = [1]
+    for time in times:
+        line_bot_api.push_message(USER_ID,
+                                  TextSendMessage(text="Hello World!"))
+
 
 if __name__ == "__main__":
     app.run()
