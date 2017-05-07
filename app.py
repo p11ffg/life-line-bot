@@ -53,18 +53,15 @@ def handle_message(event):
         TextSendMessage(text=event.message.text))
 
 
-def handleClient1():
-    while(True):
-        line_bot_api.push_message(USER_ID,
-                                  TextSendMessage(text="Hello World!"))
-        time.sleep(10)
+# def handleClient1():
+#     while(True):
+#         line_bot_api.push_message(USER_ID,
+#                                   TextSendMessage(text="Hello World!"))
+#         time.sleep(10)
 
 
-# create threads
-t = Timer(10.0, handleClient1)
-
-# start threads
-t.start()
+# t = Timer(10.0, handleClient1)
+# t.start()
 
 
 if __name__ == "__main__":
