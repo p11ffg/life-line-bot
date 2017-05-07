@@ -58,15 +58,10 @@ def job():
     line_bot_api.push_message(USER_ID, TextSendMessage(text="Hello World!"))
 
 
-print("The time is: ", datetime.datetime.now())
-# schedule.every(10).minutes.do(job)
-# schedule.every().hour.do(job)
-schedule.every().day.at("00:09").do(job)
-# schedule.every().monday.do(job)
-# schedule.every().wednesday.at("13:15").do(job)
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+# schedule.every().day.at("00:09").do(job)
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)
 
 
 if __name__ == "__main__":
