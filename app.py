@@ -18,6 +18,8 @@ YOUR_CHANNEL_SECRET = os.environ.get("SECRET")
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
+USER_ID = "U7fc6670c8ae890fcaf33f99a9796fcfc"
+
 
 @app.route("/")
 def hello():
@@ -48,6 +50,10 @@ def handle_message(event):
         event.reply_token,
         TextSendMessage(text=event.message.text))
 
+
+times = [1]
+for time in times:
+    line_bot_api.push_message(USER_ID, TextSendMessage(text="Hello World!"))
 
 if __name__ == "__main__":
     app.run()
