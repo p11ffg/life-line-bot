@@ -1,7 +1,6 @@
 import os
-import schedule
 import time
-import datetime
+from threading import Timer
 from flask import Flask, request, abort
 
 from linebot import (
@@ -54,14 +53,27 @@ def handle_message(event):
         TextSendMessage(text=event.message.text))
 
 
-def job():
-    line_bot_api.push_message(USER_ID, TextSendMessage(text="Hello World!"))
+def handleClient1():
+    while(True):
+        line_bot_api.push_message(USER_ID,
+                                  TextSendMessage(text="Hello World!"))
+        time.sleep(5)
 
 
-# schedule.every().day.at("00:09").do(job)
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+def handleClient2():
+    while(True):
+        print("Waiting for client 2...")
+        time.sleep(5)
+
+
+# create threads
+t = Timer(10.0, handleClient1)
+t2 = Timer(3.0, handleClient2)
+
+
+# start threads
+t.start()
+t2.start()
 
 
 if __name__ == "__main__":
