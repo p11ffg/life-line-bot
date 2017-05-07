@@ -57,15 +57,15 @@ def handle_message(event):
 def handleClient1():
     while(True):
         schedule.run_pending()
-        time.sleep(10)
+        time.sleep(5)
 
 
 def handleClient2():
     line_bot_api.push_message(USER_ID, TextSendMessage(text="Hello World!"))
 
 
-schedule.every().day.at("01:20").do(handleClient2)
-t = Timer(10.0, handleClient1)
+schedule.every().day.at("01:25").do(handleClient2)
+t = Timer(5.0, handleClient1)
 t.start()
 
 
