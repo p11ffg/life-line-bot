@@ -3,8 +3,7 @@ import time
 from threading import Timer
 import schedule
 from bs4 import BeautifulSoup
-import urllib
-import urllib.request
+from urllib.request import urlopen
 from flask import Flask, request, abort
 
 from linebot import (
@@ -74,7 +73,7 @@ def handleClient2():
 
 
 def parse_weather():
-    data = urllib.request.urlopen(url).read()
+    data = urlopen(url).read()
     soup = BeautifulSoup(data, "xml")
 
     weather = soup.find("weatherElement")
