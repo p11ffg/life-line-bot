@@ -2,6 +2,9 @@ import os
 import time
 from threading import Timer
 import schedule
+from bs4 import BeautifulSoup
+import urllib
+import urllib.request
 from flask import Flask, request, abort
 
 from linebot import (
@@ -22,6 +25,11 @@ line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
 USER_ID = "U7fc6670c8ae890fcaf33f99a9796fcfc"
+
+dataid = "F-D0047-061"
+authorizationkey = "CWB-BE234F8A-9F14-4069-A9F5-8795A3C20BC3"
+url = "http://opendata.cwb.gov.tw/opendataapi?\
+dataid={}&authorizationkey={}".format(dataid, authorizationkey)
 
 
 @app.route("/")
@@ -61,10 +69,28 @@ def handleClient1():
 
 
 def handleClient2():
-    line_bot_api.push_message(USER_ID, TextSendMessage(text="Hello World!"))
+    weather_text = parse_weather()
+    line_bot_api.push_message(USER_ID, TextSendMessage(text=weather_text))
 
 
-schedule.every().day.at("01:25").do(handleClient2)
+def parse_weather():
+    data = urllib.request.urlopen(url).read()
+    soup = BeautifulSoup(data, "xml")
+
+    weather = soup.find("weatherElement")
+    times = weather.find_all("time")
+    results = []
+    for time_child in times:
+        result = time_child.find("value").text
+        resultValue = int(result.replace(" ", ""))
+        results.append(resultValue)
+    max_value = max(results[0:8])
+    min_value = min(results[0:8])
+    result_text = "台北市今天最低溫: {}度, 最高溫: {}度".format(min_value, max_value)
+    return result_text
+
+
+schedule.every().day.at("08:30").do(handleClient2)
 t = Timer(5.0, handleClient1)
 t.start()
 
