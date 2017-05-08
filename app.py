@@ -86,7 +86,8 @@ def parse_weather():
         results.append(resultValue)
     max_value = max(results[0:8])
     min_value = min(results[0:8])
-    result_text = "台北市今天最低溫: {}度, 最高溫: {}度".format(min_value, max_value)
+    result_text = "The weather today in Taipei: {}C ~ {}C"\
+        .format(min_value, max_value)
     return result_text
 
 
