@@ -1,5 +1,6 @@
 import os
 import time
+import datetime
 from threading import Timer
 import schedule
 from bs4 import BeautifulSoup
@@ -90,7 +91,8 @@ def parse_weather():
     return result_text
 
 
-schedule.every().day.at("08:30").do(handleClient2)
+print("The time is: ", datetime.datetime.now())
+schedule.every().day.at("09:10").do(handleClient2)
 t = Timer(5.0, handleClient1)
 t.start()
 
