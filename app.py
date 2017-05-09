@@ -56,10 +56,16 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    print("user_id:", event.source.user_id)
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text))
+    if event.message.text == "天氣":
+        content = parse_weather()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+    else:
+        print("user_id:", event.source.user_id)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=event.message.text))
 
 
 def handleClient1():
@@ -86,12 +92,11 @@ def parse_weather():
         results.append(resultValue)
     max_value = max(results[0:8])
     min_value = min(results[0:8])
-    result_text = "The weather today in Taipei: {}C ~ {}C"\
+    result_text = "今天台北天氣約為: {}C ~ {}C"\
         .format(min_value, max_value)
     return result_text
 
 
-print("The time is: ", datetime.datetime.now())
 schedule.every().day.at("09:10").do(handleClient2)
 t = Timer(5.0, handleClient1)
 t.start()
